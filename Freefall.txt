@@ -1,0 +1,52 @@
+GlowScript 2.7 VPython
+Velocity_graph=gdots(color=color.black, label="Velocity vs time")#plot's the graph with a title 
+gdisplay(xtitle="time(s)", ytitle="Velocity(m/s)")#designates axises
+Acceleration_graph=gdots(color=color.black, label="Velocity vs time")
+
+#Constant Variables and Initial conditions
+vn=0.0#Initial velocity
+tn=0.0#Initial time
+g=9.8#acceleration 
+height=200#Initial height
+h=0.01#step size
+time_end=6#time spend in free fall
+
+#Constant Variables for the parachute when closed
+mass=5#mass of animals in ranges (0.5, 5, 100, 1000, 6000) kg
+density=1.225#air density
+sph_rad1=0.1#radius of animal in ranges (0.01, 0.1, 0.4, 1, 10)
+Drag=0.0#initial air friction
+Carea1=pi*sph_rad1**2#total surface area
+Cd=0.47#drag coefficient
+Closed_Drag=(density*Carea1*Cd/(2*mass))#drag for animal in free fall
+
+
+#plots the graph using initial conditions
+Velocity_graph.plot(pos=(tn,vn))
+
+while   (tn<time_end):
+    rate(100)#iteration per second
+    #opens the parachute at the set time
+    
+    #Heun's method update 
+    slope_n=-Drag*vn*abs(vn)-g
+    vn1=vn+(h*((-Drag*vn*abs(vn))-g))
+    
+    slope_n1=-Drag*vn*abs(vn1)-g
+    
+    ave_slope=0.5*(slope_n+slope_n1)
+    
+    vn=vn+(h*ave_slope)
+    
+    
+    
+    
+    print("Velocity (m/s)",vn," ","Time (s)",tn)
+    tn=tn+h     
+    #plot options    
+    Velocity_graph.plot(pos=(tn,vn))
+
+print("Velocity at", time_end, "second", vn)
+
+        
+      
